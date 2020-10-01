@@ -10,7 +10,7 @@ dotnet run --size 4000000
 ```
 
 ### gomergesort
-This is a merge sort written in go.  It has a normal non-current function and a concurrent function.  The concurrent version is ... interesting.  With unbounded concurrency and given a large enough array size, it will exhaust all system ram (my machine has 16GB of ram and 2GB swap).  The level of "concurrency" is controlled by `minConcurrentSize` constant in `gomergesort/main.go`.  Once an array is less than that size, the algorithm uses the non-concurrent version of the function.  It does result in somewhat of a speed up as demonstrated by the benchmarks.  I've written some go benchmarks that can be run of increasing input sizes to see the differences (there's also two insertion sort test cases to show how slow it is).
+This is a merge sort written in go.  It has a normal non-concurrent function and a concurrent function.  The concurrent version is ... interesting.  With unbounded concurrency and given a large enough array size, it will exhaust all system ram (my machine has 16GB of ram and 2GB swap).  The level of "concurrency" is controlled by `minConcurrentSize` constant in `gomergesort/main.go`.  Once an array is less than that size, the algorithm uses the non-concurrent version of the function.  It does result in somewhat of a speed up as demonstrated by the benchmarks.  I've written some go benchmarks that can be run of increasing input sizes to see the differences (there's also two insertion sort test cases to show how slow it is).
 ```
 cd gomergesort/cmd
 go run .
