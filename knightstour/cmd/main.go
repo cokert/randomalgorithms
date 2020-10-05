@@ -12,10 +12,13 @@ import (
 	"golang.org/x/text/message"
 )
 
+var maxPathDepth int
+
 func main() {
 	szPtr := flag.Int("s", -1, "size of the board")
 	xPtr := flag.Int("x", -1, "starting x position (0 <= x < size)")
 	yPtr := flag.Int("y", -1, "starting y position (0 <= y < size)")
+	pPtr := flag.Int("p", 2, "max path length to perform seach concurrently")
 
 	flag.Parse()
 
@@ -23,6 +26,7 @@ func main() {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
+	maxPathDepth = *pPtr
 
 	//initial location, create board, initial
 	l := board.Location{X: *xPtr, Y: *yPtr}
@@ -45,7 +49,7 @@ func search(b board.Board, l board.Location, p board.Path) (uint64, uint64) {
 	// (idk if a mac or windows system will kill the process or hang infinitely).  to see it do this, comment the len check below and
 	// set localConcurrent to true
 	localConcurrent := false
-	if len(p) < 3 {
+	if len(p) < maxPathDepth {
 		localConcurrent = true
 	}
 	b = b.Visit(l)
